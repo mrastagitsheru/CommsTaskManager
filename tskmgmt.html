@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Dashboard</title>
+</head>
+<body>
+  <h1>COMMUNICATIONS DIVISION: TASK LIST</h1>
+  <table id="Communications Division: Tasks">
+    <thead>
+      <tr>
+        <th>Task ID</th>
+        <th>Correspondence Minute Number</th>
+        <th>Task Title</th>
+        <th>Description</th>
+        <th>Assignee</th>
+        <th>Status</th>
+        <th>Priority</th>
+        <th>Due Date</th>
+        <th>Creation Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <style>
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+        th, td {
+          border: 1px solid black;
+          padding: 8px;
+          text-align: left;
+        }
+      </style>
+      </tbody>
+  </table>
+
+  <script>
+    const webAppUrl = 'https://script.google.com/a/macros/bahai.or.ke/s/AKfycbzudN4snv1UGyq1BYijkFBg6E3eE4Rxdl_AW5nG58cprpOf4rdaVGsc5_pXOgLxXJxN/exec'; // Replace with your Web App URL
+
+    fetch(`${webAppUrl}?action=getTasks`)
+  .then(response => response.json())
+  .then(tasks => {
+    console.log("Tasks received:", tasks); // Check the tasks array
+    const taskList = document.getElementById('taskList').getElementsByTagName('tbody')[0];
+    console.log("taskList:", taskList); // Check if taskList is found
+    tasks.forEach(task => {
+      console.log("Processing task:", task); // Check each task object
+      const row = taskList.insertRow();
+      console.log("Row created:", row); // Check if row is created
+      row.insertCell().textContent = task.taskId;
+      row.insertCell().textContent = task.correspondenceMinuteNumber;
+      row.insertCell().textContent = task.taskTitle;
+      row.insertCell().textContent = task.description;
+      row.insertCell().textContent = task.assignee;
+      row.insertCell().textContent = task.status;
+      row.insertCell().textContent = task.priority;
+      row.insertCell().textContent = task.dueDate;
+      row.insertCell().textContent = task.creationDate;
+      console.log("Row populated"); //check if row is populated.
+    });
+  });
+  </script>
+</body>
+</html>
