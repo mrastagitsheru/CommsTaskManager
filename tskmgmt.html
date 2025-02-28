@@ -2,10 +2,21 @@
 <html>
 <head>
   <title>Task Dashboard</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left; 
+    }
+  </style>
 </head>
 <body>
   <h1>COMMUNICATIONS DIVISION: TASK LIST</h1>
-  <table id="Communications Division: Tasks">
+  <table id="taskList">
     <thead>
       <tr>
         <th>Task ID</th>
@@ -20,45 +31,44 @@
       </tr>
     </thead>
     <tbody>
-      <style>
-        table {
-          border-collapse: collapse;
-          width: 100%;
-        }
-        th, td {
-          border: 1px solid black;
-          padding: 8px;
-          text-align: left;
-        }
-      </style>
-      </tbody>
+    </tbody>
   </table>
 
   <script>
-    const webAppUrl = 'https://script.google.com/a/macros/bahai.or.ke/s/AKfycbzudN4snv1UGyq1BYijkFBg6E3eE4Rxdl_AW5nG58cprpOf4rdaVGsc5_pXOgLxXJxN/exec'; // Replace with your Web App URL
+    const webAppUrl = 'https://script.google.com/a/macros/bahai.or.ke/s/AKfycbySwDaLq6ek6-AbofjC3C5ep9kZHqhrVwtob-DPU-QXJHDVaRsfmtQIKgts1se6dIfT/exec';
 
     fetch(`${webAppUrl}?action=getTasks`)
-  .then(response => response.json())
-  .then(tasks => {
-    console.log("Tasks received:", tasks); // Check the tasks array
-    const taskList = document.getElementById('taskList').getElementsByTagName('tbody')[0];
-    console.log("taskList:", taskList); // Check if taskList is found
-    tasks.forEach(task => {
-      console.log("Processing task:", task); // Check each task object
-      const row = taskList.insertRow();
-      console.log("Row created:", row); // Check if row is created
-      row.insertCell().textContent = task.taskId;
-      row.insertCell().textContent = task.correspondenceMinuteNumber;
-      row.insertCell().textContent = task.taskTitle;
-      row.insertCell().textContent = task.description;
-      row.insertCell().textContent = task.assignee;
-      row.insertCell().textContent = task.status;
-      row.insertCell().textContent = task.priority;
-      row.insertCell().textContent = task.dueDate;
-      row.insertCell().textContent = task.creationDate;
-      console.log("Row populated"); //check if row is populated.
-    });
-  });
+      .then(response => {
+        console.log("Response received:", response);
+        return response.json();
+      })
+      .then(tasks => {
+        console.log("Tasks received:", tasks);
+        const taskList = document.getElementById('taskList').getElementsByTagName('tbody')[0];
+        console.log("taskList:", taskList);
+        if (taskList) {
+          tasks.forEach(task => {
+            console.log("Processing task:", task);
+            const row = taskList.insertRow();
+            console.log("Row created:", row);
+            row.insertCell().textContent = task.taskId;
+            row.insertCell().textContent = task.correspondenceMinuteNumber;
+            row.insertCell().textContent = task.taskTitle;
+            row.insertCell().textContent = task.description;
+            row.insertCell().textContent = task.assignee;
+            row.insertCell().textContent = task.status;
+            row.insertCell().textContent = task.priority;
+            row.insertCell().textContent = task.dueDate;
+            row.insertCell().textContent = task.creationDate;
+            console.log("Row populated");
+          });
+        } else {
+          console.error("Table body not found!");
+        }
+      })
+      .catch(error => {
+          console.error("Fetch error:", error);
+      });
   </script>
 </body>
 </html>
